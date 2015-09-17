@@ -1,0 +1,155 @@
+@font-face {
+  font-family: 'icomoon';
+  src:url('../fonts/icomoon.eot?c0lih8');
+  src:url('../fonts/icomoon.eot?#iefixc0lih8') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?c0lih8') format('truetype'),
+    url('../fonts/icomoon.woff?c0lih8') format('woff'),
+    url('../fonts/icomoon.svg?c0lih8#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-cog:before {
+  content: "\e601";
+}
+.icon-power:before {
+  content: "\e600";
+}
+.icon-l:before {
+  content: "\e110";
+}
+.icon-r:before {
+  content: "\e111";
+}
+.icon-p:before {
+  content: "\e25e";
+}
+.icon-a:before {
+  content: "\e25f";
+}
+
+
+/* calendar styles */
+.cal {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  cursor: default;
+}
+.cal ::-moz-selection {
+  background-color: transparent;
+}
+.cal ::selection {
+  background-color: transparent;
+}
+.cal-header {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.cal-header-nav {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.cal-header-nav span {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-left: 5px;
+  overflow: hidden;
+}
+.cal-header-nav span:hover {
+  cursor: pointer;
+}
+.cal-header-nav span:active {
+  color: gray;
+}
+.cal .week,
+.cal .month,
+.cal .weekdays {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.cal .month {
+  -webkit-flex-flow: column nowrap;
+  -ms-flex-flow: column nowrap;
+  flex-flow: column nowrap;
+}
+.cal .week {
+  border-bottom: 1px solid #e6e6e6;
+  border-left: 1px solid #e6e6e6;
+}
+.cal .week:first-of-type {
+  border-top: 1px solid #e6e6e6;
+}
+.cal .day {
+  border-right: 1px solid #e6e6e6;
+}
+.cal .day:hover {
+  background-color: #e6e6e6;
+  cursor: pointer;
+}
+.cal .day:hover .edge {
+  color: white;
+}
+.cal .day.active, .cal .day:active {
+  background-color: #e6e6e6;
+}
+.cal .day.today {
+  background-color: #07a0f5;
+  color: white;
+}
+.cal .day.edge {
+  color: #aaa;
+}
+.cal .day.weekend {
+  background-color: #f3f3f3;
+}
+.cal .day.weekend:hover, .cal .day.weekend.active {
+  background-color: #e6e6e6;
+}
+.cal .weekdays {
+  color: gray;
+  font-weight: bold;
+}
+.cal .flex-el {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 30px;
+  height: 30px;
+  -webkit-flex: 1 1 100%;
+  -ms-flex: 1 1 100%;
+  flex: 1 1 100%;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}

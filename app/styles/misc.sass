@@ -1,0 +1,66 @@
+@import "variables"
+
+/* Misc styles */
+html, body
+  height: 100%
+  padding: 0
+  margin: 0
+  background-color: rgba(255,255,255,0)
+  overflow: hidden
+  -webkit-user-select: none
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+  color: #333
+
+.app-wrapper
+  width: 240px
+  margin: 0 auto
+  background-color: $windowBackgroundColor
+  border-left: 1px solid $tertiaryLabelColor
+  border-right: 1px solid $tertiaryLabelColor
+  border-bottom: 1px solid $tertiaryLabelColor
+  border-bottom-right-radius: 6px
+  border-bottom-left-radius: 6px
+  box-shadow: 0px 0 15px 0 rgba(0, 0, 0, 0.3)
+
+.app-inner
+  position: relative
+  overflow: hidden
+  padding-top: 11px
+  font-size: 1em
+  font-weight: 200
+  line-height: 30px
+  border-bottom-right-radius: 6px
+  border-bottom-left-radius: 6px
+  &:before
+    content: ""
+    position: absolute
+    height: 50%
+    width: 50%
+    background: url(../img/bkgr.jpg)
+    background-size: cover
+    z-index: -1
+    -webkit-transform: scale(2)
+    -webkit-transform-origin: top left
+    -webkit-filter: blur(20px) opacity(1)
+
+.body
+  padding: 0 15px
+
+.footer
+  padding: 7px 15px 0 15px
+  margin-top: 15px
+  border-top: 1px solid $tertiaryLabelColor
+
+
+.app-exit
+  font-size: 1.5em
+  &:hover
+    cursor: pointer
+  &:active
+    color: #000
+
+
+// Utils
+.container-flex
+  display: flex
+  justify-content: flex-end
