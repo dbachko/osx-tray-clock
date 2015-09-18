@@ -16,13 +16,19 @@ $ ./node_modules/.bin/electron-rebuild
 $ npm start
 ```
 
-### Build
+### Build app
 
 ```
-$ npm run build
+$ npm run build:osx
 ```
 
-Builds the app for OS X, Linux, and Windows, using [electron-packager](https://github.com/maxogden/electron-packager).
+### Create .dmg installation file
+
+```
+$ npm run pack:osx
+```
+
+Builds the app for OS X using [electron-packager](https://github.com/maxogden/electron-packager).
 
 
 ## License

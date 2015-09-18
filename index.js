@@ -4,7 +4,7 @@ const path = require('path');
 const BrowserWindow = require('browser-window');
 const Tray = require('tray');
 const Menu = require('menu');
-const Canvas = require('canvas');
+// const Canvas = require('canvas');
 const moment = require('moment');
 const NativeImage = require('native-image');
 
@@ -27,7 +27,7 @@ require('electron-debug')();
 
 app.dock.hide();
 
-app.on('ready', function () {
+app.on('ready', () => {
   initTrayIcon();
   initMainWindow();
   // addListeners();
@@ -62,12 +62,16 @@ function initMainWindow() {
   };
 
   mainWindow = new BrowserWindow(settings);
-  // mainWindow.on('blur', hideMainWindow);
-  mainWindow.loadUrl(path.join('file://', __dirname, '/app/index.html'));
+  mainWindow.loadUrl(`file://${__dirname}/app/index.html`);
+  mainWindow.on('blur', () => {
+    if(mainWindow.isVisible()) {
+      hideMainWindow();
+    }
+  });
 
   const ipc = require('electron-safe-ipc/host');
   // Listen for events from app
-  ipc.on('exit-app', function() {
+  ipc.on('exit-app', () => {
     app.quit()
   });
 };
@@ -86,23 +90,19 @@ function initTrayIcon(buf) {
   trayIcon.setTitle(label);
   trayIcon.setHighlightMode(false);
 
-  trayIcon.on('clicked', function(ev, bounds) {
+  trayIcon.on('clicked', (ev, bounds) => {
+    if(!mainWindow) return;
     // console.log('clicked: ', bounds);
     lastTimeClicked = Date.now();
-    if(!mainWindow) return;
 
-    if(mainWindow.isVisible()) {
-      hideMainWindow();
-    } else {
-      showMainWindow(bounds);
-    }
+    mainWindow.isVisible() ? hideMainWindow() : showMainWindow(bounds);
   });
 
-  trayIcon.on('double-clicked', function(ev, bounds) {
+  trayIcon.on('double-clicked', (ev, bounds) => {
+    if(!mainWindow) return;
     let timeDiff = Date.now() - lastTimeClicked;
     // console.log('double-clicked: ', bounds);
     // console.log('Time between: ', timeDiff);
-    if(!mainWindow) return;
 
     // Experental number
     if(timeDiff > 200) {
@@ -115,29 +115,26 @@ function initTrayIcon(buf) {
   });
 
   // Update time every second
-  setInterval(function() {
-    updateTime();
-  }, 1000);
+  setInterval(() => updateTime(), 1000);
 };
 
-/**
- * Updates tray icon
- */
-function updateTrayIcon(buf) {
-  let img = NativeImage.createFromBuffer(buf);
-  trayIcon.setImage(img);
-};
+// /**
+//  * Updates tray icon
+//  */
+// function updateTrayIcon(buf) {
+//   trayIcon.setImage(NativeImage.createFromBuffer(buf));
+// };
 
 /**
  * Show/Hide main window
  */
 function showMainWindow(bounds) {
-  let options = {
+  let coords = {
     x: bounds.x + Math.round(bounds.width / 2) - 130,
     y: bounds.y
   };
 
-  mainWindow.setPosition(options.x, options.y);
+  mainWindow.setPosition(coords.x, coords.y);
   mainWindow.show();
 }
 
@@ -156,32 +153,32 @@ function updateTime() {
   ticker = !ticker;
 };
 
-/**
- * Generates images for tray icons
- */
-function generateTrayIcon(callback) {
-  let now = moment().format(timeFormats.on),
-      canvas = new Canvas(22, 22),
-      ctx = canvas.getContext('2d'),
-      fs = require('fs');
+// /**
+//  * Generates images for tray icons
+//  */
+// function generateTrayIcon(callback) {
+//   let now = moment().format(timeFormats.on),
+//       canvas = new Canvas(22, 22),
+//       ctx = canvas.getContext('2d'),
+//       fs = require('fs');
 
-  let fontBase = 'assets/fonts/open-sans',
-      font = new Canvas.Font('OpenSans', path.join(__dirname, fontBase, 'OpenSans-Regular.ttf'));
-      font.addFace(path.join(__dirname, fontBase, 'OpenSans-Light.ttf'), 'light');
-      font.addFace(path.join(__dirname, fontBase, 'OpenSans-Bold.ttf'), 'bold');
-      font.addFace(path.join(__dirname, fontBase, 'OpenSans-Italic.ttf'), 'normal', 'italic');
-      font.addFace(path.join(__dirname, fontBase, 'OpenSans-BoldItalic.ttf'), 'bold', 'italic');
+//   let fontBase = 'assets/fonts/open-sans',
+//       font = new Canvas.Font('OpenSans', path.join(__dirname, fontBase, 'OpenSans-Regular.ttf'));
+//       font.addFace(path.join(__dirname, fontBase, 'OpenSans-Light.ttf'), 'light');
+//       font.addFace(path.join(__dirname, fontBase, 'OpenSans-Bold.ttf'), 'bold');
+//       font.addFace(path.join(__dirname, fontBase, 'OpenSans-Italic.ttf'), 'normal', 'italic');
+//       font.addFace(path.join(__dirname, fontBase, 'OpenSans-BoldItalic.ttf'), 'bold', 'italic');
 
-  ctx.addFont(font)
-  ctx.font = '14px OpenSans'
+//   ctx.addFont(font)
+//   ctx.font = '14px OpenSans'
 
-  ctx.fillStyle = '#000';
+//   ctx.fillStyle = '#000';
 
-  // Clear canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillText(now, 0, 16);
+//   // Clear canvas
+//   ctx.clearRect(0, 0, canvas.width, canvas.height);
+//   ctx.fillText(now, 0, 16);
 
-  canvas.toBuffer(function(err, buf) {
-    callback(buf);
-  });
-};
+//   canvas.toBuffer(function(err, buf) {
+//     callback(buf);
+//   });
+// };
