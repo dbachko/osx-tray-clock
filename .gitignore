@@ -2,7 +2,7 @@
 .AppleDouble
 .LSOverride
 
-app/
+app
 dist
 node_modules
 src/vendor
