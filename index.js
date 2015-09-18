@@ -63,7 +63,7 @@ function initMainWindow() {
 
   mainWindow = new BrowserWindow(settings);
   // mainWindow.on('blur', hideMainWindow);
-  mainWindow.loadUrl(path.join('file://', __dirname, 'dist/index.html'));
+  mainWindow.loadUrl(path.join('file://', __dirname, '/app/index.html'));
 
   const ipc = require('electron-safe-ipc/host');
   // Listen for events from app

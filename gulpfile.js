@@ -26,13 +26,13 @@ gulp.task('clean:dev', function() {
   return del(['.tmp']);
 });
 
-gulp.task('clean:dist', function() {
-  return del(['dist']);
+gulp.task('clean:app', function() {
+  return del(['app']);
 });
 
 gulp.task('scripts', function() {
   var dev = env === 'dev';
-  var filePath = './app/scripts/app.js';
+  var filePath = './src/scripts/app.js';
   var extensions = ['.jsx'];
 
   var bundle = function() {
@@ -80,37 +80,37 @@ gulp.task('scripts', function() {
 
 gulp.task('compass', function() {
   var dev = env === 'dev';
-  return gulp.src('app/styles/**/*.scss')
+  return gulp.src('src/styles/**/*.scss')
     .pipe($.plumber())
     .pipe($.if(dev, $.cached('compass')))
     .pipe($.compass({
       css: '.tmp/styles',
-      sass: 'app/styles'
+      sass: 'src/styles'
     }));
 });
 
 gulp.task('imagemin', function() {
-  return gulp.src('app/images/*')
+  return gulp.src('src/images/*')
     .pipe($.imagemin({
       progressive: true,
       svgoPlugins: [{removeViewBox: false}]
     }))
-    .pipe(gulp.dest('dist/images'));
+    .pipe(gulp.dest('app/images'));
 });
 
 gulp.task('copy', function() {
-  return gulp.src(['app/*.txt', 'app/*.ico'])
-    .pipe(gulp.dest('dist'));
+  return gulp.src(['src/*.txt', 'src/*.ico'])
+    .pipe(gulp.dest('app'));
 });
 
 gulp.task('copyFonts', function() {
-  return gulp.src(['app/fonts/*.*'])
-    .pipe(gulp.dest('dist/fonts'));
+  return gulp.src(['src/fonts/*.*'])
+    .pipe(gulp.dest('app/fonts'));
 });
 
 gulp.task('copyImgs', function() {
-  return gulp.src(['app/img/*.*'])
-    .pipe(gulp.dest('dist/img'));
+  return gulp.src(['src/img/*.*'])
+    .pipe(gulp.dest('app/img'));
 });
 
 gulp.task('bundle', function () {
@@ -120,7 +120,7 @@ gulp.task('bundle', function () {
   var cssFilter = $.filter(['**/*.css'], {restore: true});
   var htmlFilter = $.filter(['*.html'], {restore: true});
 
-  return gulp.src('app/index.html')
+  return gulp.src('src/index.html')
     .pipe($.plumber())
     .pipe($.preprocess())
     .pipe(assets)
@@ -139,7 +139,7 @@ gulp.task('bundle', function () {
     .pipe($.htmlmin({collapseWhitespace: true}))
     .pipe(htmlFilter.restore)
     .pipe(revAll.revision())
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('app'))
     .pipe($.size());
 });
 
@@ -164,10 +164,10 @@ gulp.task('webserver', function() {
 
 gulp.task('serve', function() {
   runSequence('clean:dev', ['scripts', 'compass']);
-  gulp.watch('app/*.html');
-  gulp.watch('app/scripts/**/*.js', ['scripts']);
-  gulp.watch('app/scripts/**/*.jsx', ['scripts']);
-  gulp.watch('app/styles/**/*.scss', ['compass'])
+  gulp.watch('src/*.html');
+  gulp.watch('src/scripts/**/*.js', ['scripts']);
+  gulp.watch('src/scripts/**/*.jsx', ['scripts']);
+  gulp.watch('src/styles/**/*.scss', ['compass'])
     .on('change', function (event) {
       if (event.type === 'deleted') {
         delete $.cached.caches['compass'][event.path];
@@ -177,7 +177,7 @@ gulp.task('serve', function() {
 
 gulp.task('build', function() {
   env = 'prod';
-  runSequence(['clean:dev', 'clean:dist'],
+  runSequence(['clean:dev', 'clean:app'],
               ['scripts', 'compass', 'imagemin'],
               'bundle', 'copy', 'copyFonts', 'copyImgs');
 });

@@ -2,10 +2,11 @@
 .AppleDouble
 .LSOverride
 
-node_modules
+app/
 dist
+node_modules
+src/vendor
 test/temp
-.sass-cache
-app/vendor
-.tmp
 test/scripts/
+.sass-cache
+.tmp
