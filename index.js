@@ -1,4 +1,5 @@
 'use strict';
+
 const app = require('app');
 const path = require('path');
 const BrowserWindow = require('browser-window');
@@ -50,7 +51,7 @@ app.on('ready', () => {
 function initMainWindow() {
   let settings = {
     width: 260,
-    height: 350,
+    height: 450,
     show: false,
     frame: false,
     resizable: false,

@@ -1,5 +1,6 @@
-var React = require('react');
-var ReactMonthCalendar = require('react-month-calendar');
+const React = require('react');
+const Calendar = require('react-month-calendar');
+const WorldTime = require('react-world-time');
 
 
 var Home = React.createClass({
@@ -10,10 +11,16 @@ var Home = React.createClass({
 
   render: function() {
     return (
-      <div className='body'>
-        <ReactMonthCalendar
+      <div className='main-content'>
+        <Calendar
+          className='container-flex calendar'
           firstDayOfWeek={1}
-          onDayClick={this.handleDayClick} />
+          onDayClick={this.handleDayClick}
+          headerDateFormat={'MMM YYYY'} />
+        <WorldTime
+          className='container-flex worldtime'
+          cities={[{name: 'NYC', tz: 'America/New_York'}]}
+          isEditOn={this.props.isEditOn}/>
       </div>
     );
 

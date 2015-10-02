@@ -42,7 +42,6 @@
   content: "\e25f";
 }
 
-
 /* calendar styles */
 .cal {
   display: -webkit-flex;
@@ -100,15 +99,8 @@
   -ms-flex-flow: column nowrap;
   flex-flow: column nowrap;
 }
-.cal .week {
-  border-bottom: 1px solid #e6e6e6;
-  border-left: 1px solid #e6e6e6;
-}
-.cal .week:first-of-type {
-  border-top: 1px solid #e6e6e6;
-}
 .cal .day {
-  border-right: 1px solid #e6e6e6;
+  border-radius: 15px;
 }
 .cal .day:hover {
   background-color: #e6e6e6;
@@ -120,22 +112,21 @@
 .cal .day.active, .cal .day:active {
   background-color: #e6e6e6;
 }
+.cal .day.edge {
+  color: #aaa;
+}
 .cal .day.today {
   background-color: #07a0f5;
   color: white;
 }
-.cal .day.edge {
-  color: #aaa;
-}
-.cal .day.weekend {
-  background-color: #f3f3f3;
-}
-.cal .day.weekend:hover, .cal .day.weekend.active {
-  background-color: #e6e6e6;
-}
 .cal .weekdays {
+  border-bottom: 1px solid #e6e6e6;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: 0.875rem;
+  letter-spacing: 1px;
   color: gray;
-  font-weight: bold;
 }
 .cal .flex-el {
   display: -webkit-flex;

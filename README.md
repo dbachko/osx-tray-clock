@@ -28,9 +28,6 @@ $ npm run build:osx
 $ npm run pack:osx
 ```
 
-Builds the app for OS X using [electron-packager](https://github.com/maxogden/electron-packager).
-
-
 ## License
 
 MIT © [License](LICENSE)
