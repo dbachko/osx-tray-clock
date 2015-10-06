@@ -1,7 +1,7 @@
 {
   "name": "osx-tray-clock",
   "productName": "OSX Tray Clock",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "OSX tray clock and calendar app",
   "license": "MIT",
   "main": "index.js",
@@ -23,7 +23,7 @@
   "scripts": {
     "start": "gulp build && electron .",
     "clean": "rm -rf ./dist",
-    "build:osx": "gulp build; npm run clean && electron-packager . $npm_package_name --out=dist --prune --asar --platform=darwin --arch=x64 --version 0.33.0 --overwrite --icon=assets/app-icon.icns --ignore='(.sass-cache|src|.tmp|.bowerrc|.editorconfig|.gitattributes|.gitignore|.jshintrc|bower.json|gulpfile.js|packager.json|README.md|LICENSE|node_modules/(electron-packager|electron-prebuilt|electron-rebuild|gulp*|browserify*|del|domain|preprocessify|reactify|run-sequence|vinyl-source-stream))'",
+    "build:osx": "npm run clean && gulp build && electron-packager . $npm_package_name --out=dist --platform=darwin --arch=x64 --version 0.33.6 --overwrite --icon=assets/app-icon.icns --ignore='(.sass-cache|src|.tmp|.bowerrc|.editorconfig|.gitattributes|.gitignore|.jshintrc|bower.json|gulpfile.js|packager.json|README.md|LICENSE|node_modules/(electron-packager|electron-prebuilt|electron-rebuild|gulp*|browserify*|del|domain|preprocessify|reactify|run-sequence|vinyl-source-stream))'",
     "pack:osx": "npm run build:osx && electron-builder ./dist/osx-tray-clock-darwin-x64/osx-tray-clock.app --ignore=dist --out=dist --platform=osx --config=packager.json"
   },
   "files": [
@@ -48,6 +48,7 @@
     "browserify-css": "^0.7.1",
     "del": "~2.0.2",
     "domain": "~0.0.1",
+    "electron-builder": "^2.0.0",
     "electron-packager": "^5.1.0",
     "electron-prebuilt": "^0.33.6",
     "electron-rebuild": "^1.0.1",

@@ -1,7 +1,6 @@
 'use strict';
 
 const app = require('app');
-const path = require('path');
 const fs = require('fs');
 const BrowserWindow = require('browser-window');
 const Tray = require('tray');
@@ -150,12 +149,12 @@ function generateTrayIcon(callback) {
       ctx = canvas.getContext('2d'),
       dateOffset = now.length === 1 ? 10 : 7;
 
-  var fontBase = 'assets/fonts/open-sans',
-      font = new Canvas.Font('OpenSans', path.join(__dirname, fontBase, 'OpenSans-Regular.ttf'));
-      font.addFace(path.join(__dirname, fontBase, 'OpenSans-Light.ttf'), 'light');
-      font.addFace(path.join(__dirname, fontBase, 'OpenSans-Bold.ttf'), 'bold');
-      font.addFace(path.join(__dirname, fontBase, 'OpenSans-Italic.ttf'), 'normal', 'italic');
-      font.addFace(path.join(__dirname, fontBase, 'OpenSans-BoldItalic.ttf'), 'bold', 'italic');
+  var fontDir = 'assets/fonts/open-sans',
+      font = new Canvas.Font('OpenSans', `${__dirname}/${fontDir}/OpenSans-Regular.ttf`);
+      font.addFace(`${__dirname}/${fontDir}/OpenSans-Light.ttf`, 'light');
+      font.addFace(`${__dirname}/${fontDir}/OpenSans-Bold.ttf`, 'bold');
+      font.addFace(`${__dirname}/${fontDir}/OpenSans-Italic.ttf`, 'normal', 'italic');
+      font.addFace(`${__dirname}/${fontDir}/OpenSans-BoldItalic.ttf`, 'bold', 'italic');
 
   ctx.addFont(font)
   ctx.font = '10px OpenSans'
@@ -166,13 +165,13 @@ function generateTrayIcon(callback) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   // Print date & time
   ctx.fillText(now, dateOffset, 16);
-  fs.readFile(path.join(__dirname, 'assets/img/calendar.png'), function(err, calendar) {
+  fs.readFile(`${__dirname}/assets/img/calendar.png`, (err, calendar) => {
     if (err) throw err;
     var img = new Canvas.Image;
     img.src = calendar;
     ctx.drawImage(img, 4, 1, img.width / 1.8, img.height / 1.8);
 
-    canvas.toBuffer(function(err, buf) {
+    canvas.toBuffer((err, buf) => {
       callback(buf);
     });
   });
