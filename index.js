@@ -55,7 +55,7 @@ function initMainWindow() {
   mainWindow.loadUrl(`file://${__dirname}/app/index.html`);
   mainWindow.on('blur', () => {
     if(mainWindow.isVisible()) {
-      // hideMainWindow();
+      hideMainWindow();
     }
   });
 
