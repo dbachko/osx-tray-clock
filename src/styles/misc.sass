@@ -1,5 +1,10 @@
 @import "variables"
 
+// Utils
+.container-flex
+  display: flex
+  justify-content: flex-end
+
 /* Misc styles */
 html, body
   height: 100%
@@ -12,9 +17,9 @@ html, body
   color: #333
 
 .app-wrapper
-  width: 240px
+  width: 225px
   margin: 0 auto
-  background-color: $windowBackgroundColor
+  background-color: $windowWhiteColor
   border-left: 1px solid $tertiaryLabelColor
   border-right: 1px solid $tertiaryLabelColor
   border-bottom: 1px solid $tertiaryLabelColor
@@ -25,7 +30,7 @@ html, body
 .app-inner
   position: relative
   overflow: hidden
-  padding-top: 11px
+  padding-top: 9px
   font-size: 1em
   font-weight: 200
   line-height: 30px
@@ -41,32 +46,47 @@ html, body
     z-index: -1
     -webkit-transform: scale(2)
     -webkit-transform-origin: top left
-    -webkit-filter: blur(20px) opacity(1)
+    -webkit-filter: blur(20px) opacity(0.5)
 
 .main-content
   .cal, .clock
     padding-right: 15px
     padding-left: 15px
+    font-size: 0.938rem
   .clock
     margin-top: 5px
     padding-top: 5px
     border-top: 1px solid $tertiaryLabelColor
 
 .footer
-  padding: 7px 15px 0 15px
-  margin-top: 15px
+  justify-content: space-between
+  margin-top: 5px
+  padding: 7px 15px 5px 15px
   border-top: 1px solid $tertiaryLabelColor
+  line-height: normal
 
+.search-bar
+  line-height: normal
 
-.app-exit
-  font-size: 1.5em
+.icon
+  font-size: 1.125em
+  color: $secondaryLabelColor
   &:hover
     cursor: pointer
   &:active
     color: #000
 
+/* Calendar */
+.cal .flex-el
+  height: 27px
 
-// Utils
-.container-flex
-  display: flex
-  justify-content: flex-end
+/* World clock */
+.clock-container
+  margin-top: 3px
+  margin-bottom: 3px
+  .clock-el
+    padding-left: 0
+    padding-right: 0
+  .clock-city
+    line-height: 1.250rem
+

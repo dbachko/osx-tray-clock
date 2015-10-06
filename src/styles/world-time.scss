@@ -1,4 +1,3 @@
-
 /**
  * React Select
  * ============
@@ -21,7 +20,7 @@
   color: #333333;
   cursor: default;
   outline: none;
-  padding: 8px 52px 8px 10px;
+  padding: 2px 28px 2px 5px;
 }
 
 .Select-control:hover {
@@ -55,7 +54,7 @@
 
 .Select-placeholder {
   color: #aaaaaa;
-  padding: 8px 52px 8px 10px;
+  padding: 2px 28px 2px 5px;
   position: absolute;
   top: 0;
   left: 0;
@@ -72,7 +71,7 @@
 
 .Select-value {
   color: #aaaaaa;
-  padding: 8px 52px 8px 10px;
+  padding: 2px 28px 2px 5px;
   position: absolute;
   top: 0;
   left: 0;
@@ -135,7 +134,7 @@
   color: #999999;
   cursor: pointer;
   display: inline-block;
-  font-size: 16px;
+  font-size: 0.875rem;
   padding: 6px 10px;
   position: absolute;
   right: 17px;
@@ -147,7 +146,7 @@
 }
 
 .Select-clear > span {
-  font-size: 1.1em;
+  font-size: 0.875rem;
 }
 
 .Select-arrow-zone {
@@ -170,8 +169,8 @@
   height: 0;
   margin-top: -ceil(2.5px);
   position: absolute;
-  right: 10px;
-  top: 14px;
+  right: 8px;
+  top: 10px;
   width: 0;
   cursor: pointer;
 }
@@ -191,6 +190,7 @@
   width: 100%;
   z-index: 1000;
   -webkit-overflow-scrolling: touch;
+  font-size: 0.875rem;
 }
 
 .Select-menu {
@@ -248,7 +248,7 @@
   border: 1px solid #c9e6f2;
   color: #0088cc;
   display: inline-block;
-  font-size: 1em;
+  font-size: 0.875rem;
   margin: 2px;
 }
 
@@ -366,6 +366,15 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.clock-container .clock-city {
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  line-height: 24px;
+}
 .clock-container .clock-el__digital {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
@@ -374,10 +383,22 @@
   -ms-flex-pack: center;
   justify-content: center;
 }
+.clock-container .clock-el__analog {
+  -webkit-flex: 1 1;
+  -ms-flex: 1 1;
+  flex: 1 1;
+}
+.clock-container .clock-el__analog svg {
+  border: 1px solid silver;
+  border-radius: 100%;
+}
+.clock-container .clock-el__cityname {
+  font-weight: 600;
+}
 .clock-container .btn-remove-container {
-  -webkit-flex-basis: 15%;
-  -ms-flex-preferred-size: 15%;
-  flex-basis: 15%;
+  -webkit-flex-basis: 0;
+  -ms-flex-preferred-size: 0;
+  flex-basis: 0;
 }
 .clock-container .btn-remove-container .btn-remove {
   width: 14px;

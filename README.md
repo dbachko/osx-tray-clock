@@ -1,6 +1,6 @@
 # osx-tray-clock
 
-> OSX tray clock and calendar app
+> OSX tray world clock and calendar app
 
 
 ## Dev

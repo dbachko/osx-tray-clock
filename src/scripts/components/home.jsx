@@ -14,12 +14,18 @@ var Home = React.createClass({
       <div className='main-content'>
         <Calendar
           className='container-flex calendar'
-          firstDayOfWeek={1}
-          onDayClick={this.handleDayClick}
-          headerDateFormat={'MMM YYYY'} />
+          firstDayOfWeek={0}
+          onDayClick={this.handleDayClick}/>
         <WorldTime
           className='container-flex worldtime'
-          cities={[{name: 'NYC', tz: 'America/New_York'}]}
+          cities={[{
+            name: 'New York City',
+            tz: 'America/New_York',
+            geopoint: {
+              lat: 40.71427,
+              lon: -74.00597
+            }
+          }]}
           isEditOn={this.props.isEditOn}/>
       </div>
     );

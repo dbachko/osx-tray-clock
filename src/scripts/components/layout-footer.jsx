@@ -11,10 +11,10 @@ var LayoutFooter = React.createClass({
     return (
       <div className='container-flex footer'>
         <div className='col-xs-2'>
-          <button className='app-add-clock' onClick={this.props.onToggle}>Add Clock</button>
+          <span className='icon icon-s' onClick={this.props.onToggle}/>
         </div>
         <div className='col-xs-2'>
-          <span className='app-exit icon-power' onClick={this.exitAppHandler} />
+          <span className='icon icon-power' onClick={this.exitAppHandler} />
         </div>
       </div>
     );

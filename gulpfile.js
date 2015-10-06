@@ -90,12 +90,12 @@ gulp.task('compass', function() {
 });
 
 gulp.task('imagemin', function() {
-  return gulp.src('src/images/*')
+  return gulp.src('src/img/*')
     .pipe($.imagemin({
       progressive: true,
       svgoPlugins: [{removeViewBox: false}]
     }))
-    .pipe(gulp.dest('app/images'));
+    .pipe(gulp.dest('app/img'));
 });
 
 gulp.task('copy', function() {
@@ -106,11 +106,6 @@ gulp.task('copy', function() {
 gulp.task('copyFonts', function() {
   return gulp.src(['src/fonts/*.*'])
     .pipe(gulp.dest('app/fonts'));
-});
-
-gulp.task('copyImgs', function() {
-  return gulp.src(['src/img/*.*'])
-    .pipe(gulp.dest('app/img'));
 });
 
 gulp.task('bundle', function () {
@@ -179,7 +174,7 @@ gulp.task('build', function() {
   env = 'prod';
   runSequence(['clean:dev', 'clean:app'],
               ['scripts', 'compass', 'imagemin'],
-              'bundle', 'copy', 'copyFonts', 'copyImgs');
+              'bundle', 'copy', 'copyFonts');
 });
 
 gulp.task('default', ['build']);

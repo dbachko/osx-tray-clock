@@ -13,6 +13,7 @@ var Layout = React.createClass({
   },
 
   toggleEdit: function() {
+    console.log('toggleEdit');
     this.setState({
       isEditOn: !this.state.isEditOn
     });
@@ -20,6 +21,9 @@ var Layout = React.createClass({
 
   renderChildren: function() {
     return React.Children.map(this.props.children, function(child) {
+      console.log('child === LayoutHome', child === LayoutHome)
+      console.log('LayoutHome', LayoutHome)
+      console.log('child', child)
       if (child.type === LayoutHome.type) {
         return React.cloneElement(child, {
           isEditOn: this.state.isEditOn
