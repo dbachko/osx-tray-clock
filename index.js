@@ -8,11 +8,27 @@ const Menu = require('menu');
 const Canvas = require('canvas');
 const moment = require('moment');
 const NativeImage = require('native-image');
+const exec = require('child_process').exec;
+
 
 const timeFormats = {
   on: 'ddd h:mm A',
   off: 'ddd h:mm A'
 };
+
+const winConf = {
+  width: 245,
+  height: 450,
+  show: false,
+  frame: false,
+  resizable: false,
+  transparent: true,
+  fullscreen: false,
+  'standard-window': false,
+  'use-content-size': true,
+  'overlay-scrollbars': false
+};
+
 
 var trayIcon,
     mainWindow,
@@ -37,24 +53,11 @@ app.on('ready', () => {
  * Create main window
  */
 function initMainWindow() {
-  let settings = {
-    width: 245,
-    height: 450,
-    show: false,
-    frame: false,
-    resizable: false,
-    transparent: true,
-    fullscreen: false,
-    'standard-window': false,
-    'use-content-size': true,
-    'overlay-scrollbars': false
-  };
-
-  mainWindow = new BrowserWindow(settings);
+  mainWindow = new BrowserWindow(winConf);
   mainWindow.loadUrl(`file://${__dirname}/app/index.html`);
   mainWindow.on('blur', () => {
     if(mainWindow.isVisible()) {
-      hideMainWindow();
+      // hideMainWindow();
     }
   });
 
@@ -64,6 +67,18 @@ function initMainWindow() {
     app.quit()
   });
 };
+
+// function calcWindowCoords(bounds) {
+//   let {x, y, width: w, height: h} = bounds;
+//   return {
+//     x: x + Math.round(w / 2) - 125,
+//     y: y,
+//     w,
+//     h
+//   };
+// };
+
+// function makeScreenshot(x, y, w, h)
 
 /**
  * Create tray icon
@@ -79,10 +94,20 @@ function initTrayIcon(buf) {
 
   trayIcon.on('clicked', (ev, bounds) => {
     if(!mainWindow) return;
-    // console.log('clicked: ', bounds);
-    lastTimeClicked = Date.now();
+    let x = bounds.x + Math.round(bounds.width / 2) - 125,
+        y = bounds.height,
+        w = winConf.width,
+        h = winConf.height;
+    let scr = `screencapture -R${x},${y},${w},${h} app/img/background.png`;
 
-    mainWindow.isVisible() ? hideMainWindow() : showMainWindow(bounds);
+    if(mainWindow.isVisible()) {
+      hideMainWindow();
+    } else {
+      exec(scr, (err, stdout, stderr) => {
+        showMainWindow(bounds);
+      });
+    }
+    lastTimeClicked = Date.now();
   });
 
   trayIcon.on('double-clicked', (ev, bounds) => {
@@ -116,10 +141,14 @@ function updateTrayIcon(buf) {
  * Show/Hide main window
  */
 function showMainWindow(bounds) {
+  const ipc = require('electron-safe-ipc/host');
+
   let coords = {
     x: bounds.x + Math.round(bounds.width / 2) - 125,
     y: bounds.y
   };
+
+  ipc.send('updateBackground');
 
   mainWindow.setPosition(coords.x, coords.y);
   mainWindow.show();
