@@ -1,7 +1,7 @@
 {
   "name": "osx-tray-clock",
   "productName": "OSX Tray Clock",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "OSX tray clock and calendar app",
   "license": "MIT",
   "main": "index.js",
@@ -37,6 +37,7 @@
     "electron-debug": "^0.2.1",
     "electron-safe-ipc": "^0.6.1",
     "moment": "^2.10.6",
+    "nconf": "^0.8.2",
     "react": "~0.13.3",
     "react-month-calendar": "0.0.8-a",
     "react-router": "~1.0.0-rc1",

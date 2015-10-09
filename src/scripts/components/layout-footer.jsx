@@ -1,5 +1,5 @@
-var React = require('react');
-var ipc = require('electron-safe-ipc/guest');
+const React = require('react');
+const ipc = require('electron-safe-ipc/guest');
 
 var LayoutFooter = React.createClass({
 

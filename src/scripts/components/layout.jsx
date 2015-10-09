@@ -1,8 +1,8 @@
-var React = require('react');
-var Router = require('react-router');
-var LayoutFooter = require('./layout-footer');
-var LayoutHome = require('./home');
-var ipc = require('electron-safe-ipc/guest');
+const React = require('react');
+const Router = require('react-router');
+const LayoutFooter = require('./layout-footer');
+const LayoutHome = require('./home');
+const ipc = require('electron-safe-ipc/guest');
 
 
 var Layout = React.createClass({
@@ -17,9 +17,8 @@ var Layout = React.createClass({
   componentWillMount: function() {
     var self = this;
     ipc.on('updateBackground', function() {
-      console.log('got it!')
       self.setState({
-        bgImg: this.generateBackgroundUrl()
+        bgImg: self.generateBackgroundUrl()
       });
     });
   },

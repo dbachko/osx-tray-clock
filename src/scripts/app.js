@@ -1,12 +1,12 @@
-var React = require('react');
-var ReactRouter = require('react-router'),
+const React = require('react');
+const ReactRouter = require('react-router'),
     IndexRoute = ReactRouter.IndexRoute,
     Router = ReactRouter.Router,
     Route = ReactRouter.Route,
     Link = ReactRouter.Link;
 
-var Layout = require('./components/layout');
-var Home = require('./components/home');
+const Layout = require('./components/layout');
+const Home = require('./components/home');
 
 
 React.render((

@@ -9,12 +9,10 @@ const Canvas = require('canvas');
 const moment = require('moment');
 const NativeImage = require('native-image');
 const exec = require('child_process').exec;
+const config = require('./configuration');
 
 
-const timeFormats = {
-  on: 'ddd h:mm A',
-  off: 'ddd h:mm A'
-};
+const timeFormat = 'ddd h:mm A';
 
 const winConf = {
   width: 245,
@@ -26,14 +24,14 @@ const winConf = {
   fullscreen: false,
   'standard-window': false,
   'use-content-size': true,
-  'overlay-scrollbars': false
+  'overlay-scrollbars': false,
+  'always-on-top': true
 };
 
 
 var trayIcon,
     mainWindow,
-    lastTimeClicked,
-    ticker = true;
+    lastTimeClicked;
 
 // report crashes to the Electron project
 require('crash-reporter').start();
@@ -41,10 +39,14 @@ require('crash-reporter').start();
 // adds debug features like hotkeys for triggering dev tools and reload
 require('electron-debug')();
 
-
+// Hide dock icon
 app.dock.hide();
 
+// Init app on ready
 app.on('ready', () => {
+  // if(!config.getSettings('shortcutKeys')) {
+  //   config.setSettings('shortcutKeys', ['ctrl', 'shift']);
+  // }
   generateTrayIcon(initTrayIcon);
   initMainWindow();
 });
@@ -85,7 +87,7 @@ function initMainWindow() {
  */
 function initTrayIcon(buf) {
   // let icon = NativeImage.createEmpty(),
-  let label = moment().format(timeFormats.on);
+  let label = moment().format(timeFormat);
   let icon = NativeImage.createFromBuffer(buf);
 
   trayIcon = new Tray(icon);
@@ -154,6 +156,7 @@ function showMainWindow(bounds) {
   mainWindow.show();
 }
 
+// @TODO: add fade animation
 function hideMainWindow(bounds) {
   mainWindow.hide();
 }
@@ -162,11 +165,9 @@ function hideMainWindow(bounds) {
  * Generates and updates current time in tray
  */
 function updateTime() {
-  let timeFormatStr = ticker ? timeFormats.on : timeFormats.off;
-  let label = moment().format(timeFormatStr);
+  let label = moment().format(timeFormat);
 
   trayIcon.setTitle(label);
-  ticker = !ticker;
 };
 
 /**
@@ -187,18 +188,21 @@ function generateTrayIcon(callback) {
 
   ctx.addFont(font)
   ctx.font = '10px OpenSans'
-
   ctx.fillStyle = '#000';
 
   // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // Print date & time
-  ctx.fillText(now, dateOffset, 16);
+
+  // Draw icon in tray
   fs.readFile(`${__dirname}/assets/img/calendar.png`, (err, calendar) => {
     if (err) throw err;
     var img = new Canvas.Image;
+
     img.src = calendar;
+
     ctx.drawImage(img, 4, 1, img.width / 1.8, img.height / 1.8);
+    // Draw date
+    ctx.fillText(now, dateOffset, 16);
 
     canvas.toBuffer((err, buf) => {
       callback(buf);
