@@ -24,6 +24,7 @@ var Layout = React.createClass({
   },
 
   toggleEdit: function() {
+    console.log('toggleEdit')
     this.setState({
       isEditOn: !this.state.isEditOn
     });
@@ -35,7 +36,7 @@ var Layout = React.createClass({
 
   renderChildren: function() {
     return React.Children.map(this.props.children, function(child) {
-      if (child.type === LayoutHome.type) {
+      if (child.type === LayoutHome) {
         return React.cloneElement(child, {
           isEditOn: this.state.isEditOn
         })
@@ -52,7 +53,7 @@ var Layout = React.createClass({
     return (
       <div className='app-wrapper'>
         <div className='app-inner'>
-          <div className='app-inner-pseudo' style={divStyle}/>
+          <div className='app-pseudo-background' style={divStyle}/>
           {this.renderChildren()}
           <LayoutFooter
             isEditOn={this.state.isEditOn}
