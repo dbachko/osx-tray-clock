@@ -17,6 +17,7 @@ const timeFormat = 'ddd h:mm A';
 const winConf = {
   width: 245,
   height: 450,
+  innerWidth: 225,
   show: false,
   frame: false,
   resizable: false,
@@ -88,7 +89,7 @@ function initMainWindow() {
 function initTrayIcon(buf) {
   // let icon = NativeImage.createEmpty(),
   let label = moment().format(timeFormat);
-  let icon = NativeImage.createFromBuffer(buf);
+  let icon = NativeImage.createFromBuffer(buf, 2);
 
   trayIcon = new Tray(icon);
   trayIcon.setTitle(label);
@@ -96,9 +97,9 @@ function initTrayIcon(buf) {
 
   trayIcon.on('clicked', (ev, bounds) => {
     if(!mainWindow) return;
-    let x = bounds.x + Math.round(bounds.width / 2) - 125,
+    let x = bounds.x + Math.round((bounds.width - winConf.innerWidth) / 2),
         y = bounds.height,
-        w = winConf.width,
+        w = winConf.innerWidth,
         h = winConf.height;
     let scr = `screencapture -R${x},${y},${w},${h} app/img/background.png`;
 
@@ -175,19 +176,21 @@ function updateTime() {
  */
 function generateTrayIcon(callback) {
   var now = moment().format('D'),
-      canvas = new Canvas(22, 22),
+      canvas = new Canvas(44, 44),
       ctx = canvas.getContext('2d'),
-      dateOffset = now.length === 1 ? 10 : 7;
+      dateOffset = now.length === 1 ? 16 : 11;
 
-  var fontDir = 'assets/fonts/open-sans',
-      font = new Canvas.Font('OpenSans', `${__dirname}/${fontDir}/OpenSans-Regular.ttf`);
-      font.addFace(`${__dirname}/${fontDir}/OpenSans-Light.ttf`, 'light');
-      font.addFace(`${__dirname}/${fontDir}/OpenSans-Bold.ttf`, 'bold');
-      font.addFace(`${__dirname}/${fontDir}/OpenSans-Italic.ttf`, 'normal', 'italic');
-      font.addFace(`${__dirname}/${fontDir}/OpenSans-BoldItalic.ttf`, 'bold', 'italic');
+  var fontLoc = `${__dirname}/assets/fonts/open-sans`,
+      font = new Canvas.Font('OpenSans', `${fontLoc}/OpenSans-Regular.ttf`);
+
+  font.addFace(`${fontLoc}/OpenSans-Regular.ttf`, 'normal');
+  font.addFace(`${fontLoc}/OpenSans-Light.ttf`, 'light');
+  font.addFace(`${fontLoc}/OpenSans-Bold.ttf`, 'bold');
+  font.addFace(`${fontLoc}/OpenSans-Italic.ttf`, 'normal', 'italic');
+  font.addFace(`${fontLoc}/OpenSans-BoldItalic.ttf`, 'bold', 'italic');
 
   ctx.addFont(font)
-  ctx.font = '10px OpenSans'
+  ctx.font = 'bold 20px OpenSans'
   ctx.fillStyle = '#000';
 
   // Clear canvas
@@ -200,9 +203,9 @@ function generateTrayIcon(callback) {
 
     img.src = calendar;
 
-    ctx.drawImage(img, 4, 1, img.width / 1.8, img.height / 1.8);
-    // Draw date
-    ctx.fillText(now, dateOffset, 16);
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    // Add date
+    ctx.fillText(now, dateOffset, 32);
 
     canvas.toBuffer((err, buf) => {
       callback(buf);
