@@ -109,7 +109,6 @@ gulp.task('copyFonts', function() {
 });
 
 gulp.task('bundle', function () {
-  var assets = $.useref.assets();
   var revAll = new $.revAll({dontRenameFile: [/^\/favicon.ico$/g, '.html']});
   var jsFilter = $.filter(['**/*.js'], {restore: true});
   var cssFilter = $.filter(['**/*.css'], {restore: true});
@@ -118,8 +117,6 @@ gulp.task('bundle', function () {
   return gulp.src('src/index.html')
     .pipe($.plumber())
     .pipe($.preprocess())
-    .pipe(assets)
-    .pipe(assets.restore())
     .pipe($.useref())
     .pipe(jsFilter)
     .pipe($.uglify())
@@ -128,7 +125,7 @@ gulp.task('bundle', function () {
     .pipe($.autoprefixer({
       browsers: ['last 5 versions']
     }))
-    .pipe($.minifyCss())
+    .pipe($.cssnano())
     .pipe(cssFilter.restore)
     .pipe(htmlFilter)
     .pipe($.htmlmin({collapseWhitespace: true}))

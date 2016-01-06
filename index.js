@@ -10,7 +10,7 @@ const moment = require('moment');
 const NativeImage = require('native-image');
 const exec = require('child_process').exec;
 const config = require('./configuration');
-
+const crashReporter = require('electron').crashReporter;
 
 const timeFormat = 'ddd h:mm A';
 
@@ -35,7 +35,11 @@ var trayIcon,
     lastTimeClicked;
 
 // report crashes to the Electron project
-require('crash-reporter').start();
+crashReporter.start({
+  productName: 'osx-tray-clock',
+  companyName: 'dbachko',
+  submitURL: 'http://127.0.0.1'
+});
 
 // adds debug features like hotkeys for triggering dev tools and reload
 require('electron-debug')();
@@ -57,10 +61,10 @@ app.on('ready', () => {
  */
 function initMainWindow() {
   mainWindow = new BrowserWindow(winConf);
-  mainWindow.loadUrl(`file://${__dirname}/app/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/app/index.html`);
   mainWindow.on('blur', () => {
     if(mainWindow.isVisible()) {
-      // hideMainWindow();
+      hideMainWindow();
     }
   });
 
@@ -95,7 +99,7 @@ function initTrayIcon(buf) {
   trayIcon.setTitle(label);
   trayIcon.setHighlightMode(false);
 
-  trayIcon.on('clicked', (ev, bounds) => {
+  trayIcon.on('click', (ev, bounds) => {
     if(!mainWindow) return;
     let x = bounds.x + Math.round((bounds.width - winConf.innerWidth) / 2),
         y = bounds.height,
@@ -113,7 +117,7 @@ function initTrayIcon(buf) {
     lastTimeClicked = Date.now();
   });
 
-  trayIcon.on('double-clicked', (ev, bounds) => {
+  trayIcon.on('double-click', (ev, bounds) => {
     if(!mainWindow) return;
     let timeDiff = Date.now() - lastTimeClicked;
     // console.log('double-clicked: ', bounds);
@@ -190,7 +194,8 @@ function generateTrayIcon(callback) {
   font.addFace(`${fontLoc}/OpenSans-BoldItalic.ttf`, 'bold', 'italic');
 
   ctx.addFont(font)
-  ctx.font = 'bold 20px OpenSans'
+  // ctx.font = 'bold 20px OpenSans'
+  ctx.font = 'normal 22px "Helvetica Neue"'
   ctx.fillStyle = '#000';
 
   // Clear canvas
