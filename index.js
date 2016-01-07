@@ -44,18 +44,6 @@ crashReporter.start({
 // adds debug features like hotkeys for triggering dev tools and reload
 require('electron-debug')();
 
-// Hide dock icon
-app.dock.hide();
-
-// Init app on ready
-app.on('ready', () => {
-  // if(!config.getSettings('shortcutKeys')) {
-  //   config.setSettings('shortcutKeys', ['ctrl', 'shift']);
-  // }
-  generateTrayIcon(initTrayIcon);
-  initMainWindow();
-});
-
 /**
  * Create main window
  */
@@ -64,7 +52,7 @@ function initMainWindow() {
   mainWindow.loadURL(`file://${__dirname}/app/index.html`);
   mainWindow.on('blur', () => {
     if(mainWindow.isVisible()) {
-      hideMainWindow();
+      // hideMainWindow();
     }
   });
 
@@ -73,7 +61,7 @@ function initMainWindow() {
   ipc.on('exit-app', () => {
     app.quit()
   });
-};
+}
 
 // function calcWindowCoords(bounds) {
 //   let {x, y, width: w, height: h} = bounds;
@@ -135,14 +123,14 @@ function initTrayIcon(buf) {
 
   // Update time every second
   setInterval(() => updateTime(), 1000);
-};
+}
 
 /**
  * Updates tray icon
  */
 function updateTrayIcon(buf) {
   trayIcon.setImage(NativeImage.createFromBuffer(buf));
-};
+}
 
 /**
  * Show/Hide main window
@@ -173,7 +161,7 @@ function updateTime() {
   let label = moment().format(timeFormat);
 
   trayIcon.setTitle(label);
-};
+}
 
 /**
  * Generates images for tray icons
@@ -204,7 +192,7 @@ function generateTrayIcon(callback) {
   // Draw icon in tray
   fs.readFile(`${__dirname}/assets/img/calendar.png`, (err, calendar) => {
     if (err) throw err;
-    var img = new Canvas.Image;
+    var img = new Canvas.Image();
 
     img.src = calendar;
 
@@ -216,5 +204,19 @@ function generateTrayIcon(callback) {
       callback(buf);
     });
   });
+}
 
-};
+// Sets experiment features
+app.commandLine.appendSwitch('enable-experimental-web-platform-features', true);
+
+// Hide dock icon
+app.dock.hide();
+
+// Init app on ready
+app.on('ready', () => {
+  // if(!config.getSettings('shortcutKeys')) {
+  //   config.setSettings('shortcutKeys', ['ctrl', 'shift']);
+  // }
+  generateTrayIcon(initTrayIcon);
+  initMainWindow();
+});
