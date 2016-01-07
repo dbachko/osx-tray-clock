@@ -29,7 +29,6 @@ const winConf = {
   'always-on-top': true
 };
 
-
 var trayIcon,
     mainWindow,
     lastTimeClicked;
@@ -44,18 +43,6 @@ crashReporter.start({
 // adds debug features like hotkeys for triggering dev tools and reload
 require('electron-debug')();
 
-// Hide dock icon
-app.dock.hide();
-
-// Init app on ready
-app.on('ready', () => {
-  // if(!config.getSettings('shortcutKeys')) {
-  //   config.setSettings('shortcutKeys', ['ctrl', 'shift']);
-  // }
-  generateTrayIcon(initTrayIcon);
-  initMainWindow();
-});
-
 /**
  * Create main window
  */
@@ -64,16 +51,16 @@ function initMainWindow() {
   mainWindow.loadURL(`file://${__dirname}/app/index.html`);
   mainWindow.on('blur', () => {
     if(mainWindow.isVisible()) {
-      hideMainWindow();
+      // hideMainWindow();
     }
   });
 
   const ipc = require('electron-safe-ipc/host');
   // Listen for events from app
   ipc.on('exit-app', () => {
-    app.quit()
+    app.quit();
   });
-};
+}
 
 // function calcWindowCoords(bounds) {
 //   let {x, y, width: w, height: h} = bounds;
@@ -84,8 +71,6 @@ function initMainWindow() {
 //     h
 //   };
 // };
-
-// function makeScreenshot(x, y, w, h)
 
 /**
  * Create tray icon
@@ -119,6 +104,7 @@ function initTrayIcon(buf) {
 
   trayIcon.on('double-click', (ev, bounds) => {
     if(!mainWindow) return;
+
     let timeDiff = Date.now() - lastTimeClicked;
     // console.log('double-clicked: ', bounds);
     // console.log('Time between: ', timeDiff);
@@ -135,14 +121,14 @@ function initTrayIcon(buf) {
 
   // Update time every second
   setInterval(() => updateTime(), 1000);
-};
+}
 
 /**
  * Updates tray icon
  */
 function updateTrayIcon(buf) {
   trayIcon.setImage(NativeImage.createFromBuffer(buf));
-};
+}
 
 /**
  * Show/Hide main window
@@ -173,7 +159,7 @@ function updateTime() {
   let label = moment().format(timeFormat);
 
   trayIcon.setTitle(label);
-};
+}
 
 /**
  * Generates images for tray icons
@@ -193,9 +179,10 @@ function generateTrayIcon(callback) {
   font.addFace(`${fontLoc}/OpenSans-Italic.ttf`, 'normal', 'italic');
   font.addFace(`${fontLoc}/OpenSans-BoldItalic.ttf`, 'bold', 'italic');
 
-  ctx.addFont(font)
+  ctx.addFont(font);
   // ctx.font = 'bold 20px OpenSans'
-  ctx.font = 'normal 22px "Helvetica Neue"'
+	// ctx.font = 'normal 22px "Helvetica Neue"';
+  ctx.font = 'normal 22px Helvetica';
   ctx.fillStyle = '#000';
 
   // Clear canvas
@@ -204,7 +191,8 @@ function generateTrayIcon(callback) {
   // Draw icon in tray
   fs.readFile(`${__dirname}/assets/img/calendar.png`, (err, calendar) => {
     if (err) throw err;
-    var img = new Canvas.Image;
+
+    var img = new Canvas.Image();
 
     img.src = calendar;
 
@@ -217,4 +205,17 @@ function generateTrayIcon(callback) {
     });
   });
 
-};
+}
+
+
+// Hide dock icon
+app.dock.hide();
+
+// Init app on ready
+app.on('ready', () => {
+  // if(!config.getSettings('shortcutKeys')) {
+  //   config.setSettings('shortcutKeys', ['ctrl', 'shift']);
+  // }
+  generateTrayIcon(initTrayIcon);
+  initMainWindow();
+});
