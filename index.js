@@ -207,6 +207,8 @@ function generateTrayIcon(callback) {
 
 }
 
+// Sets experiment features
+app.commandLine.appendSwitch('enable-experimental-web-platform-features', true);
 
 // Hide dock icon
 app.dock.hide();
