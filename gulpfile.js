@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp          = require('gulp');
 
 var $             = require('gulp-load-plugins')();
@@ -11,7 +13,7 @@ var domain        = require('domain');
 var env           = 'dev';
 var webserver     = false;
 
-log = function(task, start) {
+var log = function log(task, start) {
   if (!start) {
     setTimeout(function() {
       $.util.log('Starting', '\'' + $.util.colors.cyan(task) + '\'...');
@@ -58,7 +60,7 @@ gulp.task('scripts', function() {
           runSequence('webserver');
         }
       })));
-  }
+  };
 
   if (dev) {
     gulp.src(filePath)
@@ -162,7 +164,7 @@ gulp.task('serve', function() {
   gulp.watch('src/styles/**/*.scss', ['compass'])
     .on('change', function (event) {
       if (event.type === 'deleted') {
-        delete $.cached.caches['compass'][event.path];
+        delete $.cached.caches.compass[event.path];
       }
     });
 });

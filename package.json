@@ -1,7 +1,7 @@
 {
   "name": "osx-tray-clock",
   "productName": "OSX Tray Clock",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "OSX tray clock and calendar app",
   "license": "MIT",
   "main": "index.js",
@@ -21,7 +21,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "start": "gulp build && electron --js-flags='--help' .",
+    "start": "gulp build && electron .",
     "clean": "rm -rf ./dist",
     "build:osx": "npm run clean && gulp build && electron-packager . $npm_package_name --out=dist --platform=darwin --arch=x64 --version 0.33.6 --overwrite --icon=assets/app-icon.icns --ignore='(.sass-cache|src|.tmp|.bowerrc|.editorconfig|.gitattributes|.gitignore|.jshintrc|bower.json|gulpfile.js|packager.json|README.md|LICENSE|node_modules/(electron-packager|electron-prebuilt|electron-rebuild|gulp*|browserify*|del|domain|preprocessify|reactify|run-sequence|vinyl-source-stream))'",
     "pack:osx": "npm run build:osx && electron-builder ./dist/osx-tray-clock-darwin-x64/osx-tray-clock.app --ignore=dist --out=dist --platform=osx --config=packager.json"
